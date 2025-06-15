@@ -20,8 +20,8 @@ private func load(){
     let inData = try? Data(contentsOf: URL(fileURLWithPath: Bundle(identifier: "org.cocoapods.IoniconsSwift")!.path(forResource: "ionicons", ofType: "ttf")!))
 	var error : Unmanaged<CFError>?
     let provider = CGDataProvider(data: inData! as CFData)
-	let font = CGFont(provider!)
-    if !CTFontManagerRegisterGraphicsFont(font!, &error) {
+    guard let font = CGFont(provider!) else { return }
+    if !CTFontManagerRegisterGraphicsFont(font, &error) {
 		let errorDescription = CFErrorCopyDescription(error!.takeRetainedValue())
         NSLog("Failed to load font: %@", errorDescription! as String);
 	}
